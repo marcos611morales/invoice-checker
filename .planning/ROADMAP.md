@@ -40,11 +40,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Automated tests parse anonymized fixtures of all 143 sample files without errors, covering BOM, single-concept files, namespace prefixes and unknown complements. Money uses exact decimals, and every invoice reconciles with its XML total within $0.10. No real fiscal file is committed.
   5. The server reads and writes Drive using the owner's one-time authorization, and still works more than 7 days later without anyone re-authorizing. All app state is JSON in `Facturas/_app/`, reached only through a storage interface that tests also run against an in-memory fake.
 
-**Plans:** 10 plans
+**Plans:** 1/10 plans executed
 
 Plans:
 **Wave 1**
-- [ ] 01-01-PLAN.md — Skeleton: pinned toolchain, package legitimacy gate, allowlisted Google login (identity scopes only), Acceso denegado (Wave 1)
+- [x] 01-01-PLAN.md — Skeleton: pinned toolchain, package legitimacy gate, allowlisted Google login (identity scopes only), Acceso denegado (Wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — Owner Drive authorization: `pnpm drive:auth`, DriveApi port, external GCP/Vercel setup, token minted day 1 (Wave 2)
@@ -148,7 +148,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Real Spend by Supplier | 0/TBD | Not started | - |
+| 1. Real Spend by Supplier | 1/10 | In Progress | - |
 | 2. Trustworthy, Explorable Figures | 0/TBD | Not started | - |
 | 3. Spend by Category | 0/TBD | Not started | - |
 | 4. IVA, Data Quality & Excel Export | 0/TBD | Not started | - |
