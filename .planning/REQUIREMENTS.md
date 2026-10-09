@@ -117,12 +117,60 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| AUTH-05 | Phase 1 | Pending |
+| ING-01 | Phase 1 | Pending |
+| ING-02 | Phase 1 | Pending |
+| ING-03 | Phase 4 | Pending |
+| ING-04 | Phase 1 | Pending |
+| ING-05 | Phase 2 | Pending |
+| LEDG-01 | Phase 1 | Pending |
+| LEDG-02 | Phase 1 | Pending |
+| LEDG-03 | Phase 1 | Pending |
+| LEDG-04 | Phase 2 | Pending |
+| LEDG-05 | Phase 2 | Pending |
+| LEDG-06 | Phase 2 | Pending |
+| LEDG-07 | Phase 1 | Pending |
+| DASH-01 | Phase 2 | Pending |
+| DASH-02 | Phase 2 | Pending |
+| DASH-03 | Phase 3 | Pending |
+| DASH-04 | Phase 1 | Pending |
+| DASH-05 | Phase 3 | Pending |
+| DASH-06 | Phase 2 | Pending |
+| DASH-07 | Phase 2 | Pending |
+| DASH-08 | Phase 2 | Pending |
+| DASH-09 | Phase 1 | Pending |
+| CAT-01 | Phase 3 | Pending |
+| CAT-02 | Phase 3 | Pending |
+| CAT-03 | Phase 3 | Pending |
+| CAT-04 | Phase 3 | Pending |
+| CAT-05 | Phase 3 | Pending |
+| CAT-06 | Phase 3 | Pending |
+| CAT-07 | Phase 3 | Pending |
+| IVA-01 | Phase 4 | Pending |
+| IVA-02 | Phase 4 | Pending |
+| IVA-03 | Phase 4 | Pending |
+| QUAL-01 | Phase 4 | Pending |
+| QUAL-02 | Phase 4 | Pending |
+| PROD-01 | Phase 5 | Pending |
+| PROD-02 | Phase 5 | Pending |
+| PROD-03 | Phase 5 | Pending |
+| PROD-04 | Phase 5 | Pending |
+| PROD-05 | Phase 5 | Pending |
+| EXP-01 | Phase 4 | Pending |
+| EXP-02 | Phase 4 | Pending |
+| STOR-01 | Phase 1 | Pending |
+| STOR-02 | Phase 3 | Pending |
+| STOR-03 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 48 total
-- Mapped to phases: 0
-- Unmapped: 48 ⚠️
+- Mapped to phases: 48
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-09*
-*Last updated: 2026-10-09 after initial definition*
+*Last updated: 2026-10-09 after roadmap creation (traceability mapped)*
