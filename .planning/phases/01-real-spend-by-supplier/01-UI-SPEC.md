@@ -1,7 +1,8 @@
 ---
 phase: "01"
 slug: real-spend-by-supplier
-status: draft
+status: approved
+reviewed_at: "2026-10-09"
 shadcn_initialized: true
 preset: "b2fA (style radix-nova, base radix, baseColor neutral, icons lucide)"
 created: "2026-10-09"
@@ -257,7 +258,7 @@ Number and date formats: amounts `formatMXN` (for example "$1,234.50", "-$1,234,
 
 ## UI Considerations
 
-Applicable state considerations resolved: 14 covered, 2 backstop, 2 unresolved.
+Applicable state considerations resolved: 16 covered, 2 backstop, 0 unresolved. Probe run 2026-10-09 (9 elements, 37 applicable categories); every category maps to a row below, and the two previously open rows were decided by the user.
 
 | Category | Element(s) | Status | Resolution / Reason |
 |----------|------------|--------|---------------------|
@@ -277,8 +278,8 @@ Applicable state considerations resolved: 14 covered, 2 backstop, 2 unresolved.
 | negative values | static-content (amounts, chart) | ✅ covered | `formatMXN` prints a leading minus (locked by `tests/unit/format.test.ts`), bars extend below a zero baseline line, color is not used to signal sign. |
 | populated | media + list-collection (39 suppliers, 12 months) | 🧪 backstop | `{ statement: "At 1280px and 390px wide the populated dashboard has no clipped labels, no overlapping axis text and no horizontal page scroll", verification: backstop }` — covered by the Plan 01-10 human check on production, no automated visual test. |
 | populated | media (chart color contrast) | 🧪 backstop | `{ statement: "Chart bars are visible against white (the shipped chart-1 grey is replaced by the teal token)", verification: backstop }` — visual check; a unit test cannot see the CSS result. |
-| partial | interactive-control (first sync remount) | ⚠ unresolved | On the first sync, `router.refresh()` switches `/` from the onboarding branch to the dashboard branch, which remounts `SyncButton` and drops its summary and problem list (Plan 01-07 says "show the summary and call `router.refresh()`"). Recommended: in onboarding and no-data states keep the summary on screen and refresh only when the user presses "Ver resumen"; on the dashboard strip refresh immediately. Fallback: sonner toast "Sincronización completa: {n} nuevas" so feedback is not lost. Planner to decide. |
-| error | list-collection (invalid `_app` document) | ⚠ unresolved | `InvalidDocError` carries a useful Spanish `mensaje` ("El archivo _app/<name> no es válido y no se sobrescribió…") but a thrown server error reaches only the generic `error.tsx`. Recommended: the dataset snapshot returns an `estado_invalido` state with the `mensaje`, rendered as a destructive `Alert` on `/`. Planner to decide. |
+| partial | interactive-control (first sync remount) | ✅ covered | User decision 2026-10-09: in the onboarding and no-data states, after a finished first sync `SyncButton` keeps the summary and problem list on screen and shows a "Ver resumen" button; `router.refresh()` (switching `/` to the dashboard) runs only when the user presses it. On the dashboard strip, refresh runs immediately after a finished sync. |
+| error | list-collection (invalid `_app` document) | ✅ covered | User decision 2026-10-09: the dataset snapshot catches `InvalidDocError` and returns an `estado_invalido` state carrying the Spanish `mensaje` ("El archivo _app/<name> no es válido y no se sobrescribió…"); `/` renders it in a destructive `Alert` instead of throwing to `error.tsx`. |
 
 ---
 
@@ -301,18 +302,19 @@ Differences between this contract and the plans, all additive or layout-only. No
 3. **Plan 01-05**: renames the Ajustes buttons from "Revisar" / "Guardar" to "Revisar carpeta" / "Guardar carpeta" (pending "Revisando carpeta…" / "Guardando carpeta…"; the plan's `Guardar enabled after a successful review` and the human-check wording "Revisar ... Guardar" refer to these buttons; the success toast stays "Carpeta guardada"), adds the folder-change notice, the 0-XML notice, and pending labels; nav links render through a client `AppNav` for the active indicator.
 4. **Plan 01-10**: onboarding card title, step copy and no-data state are fixed above; `loading.tsx`, `error.tsx` and `not-found.tsx` files are new and belong to the dashboard / detail plans (01-08 and 01-10) respectively.
 5. **Locked label kept as is**: "Sincronizar" stays a bare verb because D-05 names the button and Plans 01-06/07/10 grep for it; its context (page heading, "Última sincronización" caption) supplies the noun.
-6. **Plan 01-01 residue**: `globals.css` font variable fix and chart token replacement (see Design System) must land with the first plan that renders a chart (Plan 01-08 Task 1).
+6. **User decisions (UI Considerations)**: Plan 01-07/01-10 add the "Ver resumen" button and deferred `router.refresh()` in onboarding/no-data states; Plan 01-06/01-08 add the `estado_invalido` snapshot state and its Alert on `/`.
+7. **Plan 01-01 residue**: `globals.css` font variable fix and chart token replacement (see Design System) must land with the first plan that renders a chart (Plan 01-08 Task 1).
 
 ---
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
-- [ ] Dimension 7 Inventory Provenance: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
+- [x] Dimension 7 Inventory Provenance: PASS
 
-**Approval:** pending
+**Approval:** approved 2026-10-09 (gsd-ui-checker, revision 1; 7/7 PASS)
