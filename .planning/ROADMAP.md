@@ -28,6 +28,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Real Spend by Supplier
+
 **Goal:** As a business owner, I want to sign in and sync my Drive invoices, so that I see exact spend by supplier and month.
 **Mode:** mvp
 **Depends on:** Nothing (first phase)
@@ -38,7 +39,34 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The dashboard is in Spanish with es-MX MXN formatting. It ranks suppliers by spend and shows each supplier's monthly evolution for the 2025 sample. Egresos subtract and Pago complements add zero, so Telmex and Google Ads totals match their XMLs.
   4. Automated tests parse anonymized fixtures of all 143 sample files without errors, covering BOM, single-concept files, namespace prefixes and unknown complements. Money uses exact decimals, and every invoice reconciles with its XML total within $0.10. No real fiscal file is committed.
   5. The server reads and writes Drive using the owner's one-time authorization, and still works more than 7 days later without anyone re-authorizing. All app state is JSON in `Facturas/_app/`, reached only through a storage interface that tests also run against an in-memory fake.
-**Plans:** TBD
+
+**Plans:** 10 plans
+
+Plans:
+**Wave 1**
+- [ ] 01-01-PLAN.md — Skeleton: pinned toolchain, package legitimacy gate, allowlisted Google login (identity scopes only), Acceso denegado (Wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 01-02-PLAN.md — Owner Drive authorization: `pnpm drive:auth`, DriveApi port, external GCP/Vercel setup, token minted day 1 (Wave 2)
+- [ ] 01-03-PLAN.md — 143 anonymized CFDI fixtures + leak guard (Wave 2)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 01-04-PLAN.md — CFDI 4.0 parser, exact-decimal spend rules, reconciliation, golden totals (Wave 3)
+- [ ] 01-05-PLAN.md — Skeleton: Ajustes folder (pointer + `_app/`) on real Drive, Vercel deploy, health check, keep-alive (Wave 3)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 01-06-PLAN.md — First sync into `_app/` JSON through storage ports, in-memory fakes, contract suite (Wave 4)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 01-07-PLAN.md — Resumable sync with progress, Drive mirroring, UUID dedupe, problem list (Wave 5)
+- [ ] 01-08-PLAN.md — Spend-by-supplier dashboard (monthly bars, top 10, table, year selector, es-MX formatters) (Wave 5)
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 01-10-PLAN.md — Supplier detail page, guided first-run steps, es-MX format tests, real-XML Telmex / Google Ads cross-check (Wave 6)
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 01-09-PLAN.md — Hardening: entry-point guard, anonymous smoke in prod, If-Match spike, day-8 AUTH-05 check; runs last (Wave 7)
+
 **UI hint**: yes
 **Research flag**: Spike first, before building on these choices.
   - Credential path: the owner's OAuth refresh token with `drive` scope, stored server-side. Consent screen published "In production". Login identity kept separate from Drive access. Check Better Auth stateless + refresh, and the partner's unverified-app login flow.
@@ -46,6 +74,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   - Record both outcomes in PROJECT.md Key Decisions.
 
 ### Phase 2: Trustworthy, Explorable Figures
+
 **Goal:** As a business owner, I want to filter by period and drill any figure down to its invoices, so that I trust every number.
 **Mode:** mvp
 **Depends on:** Phase 1
@@ -56,10 +85,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Line amounts are net of line discounts, and the header discount is not subtracted again. The "sin IVA" (default) / "con IVA" toggle changes every figure consistently, using per-line tax buckets: IVA 16%, IVA 0%, exento, no objeto, IEPS as cost, and retenciones.
   4. Substitution (TipoRelacion 04) and anticipo (TipoRelacion 07) chains are counted once. The Google Ads anticipo + cancelación de prepago nets to its real spend, and the drill-down shows the related CFDIs.
   5. Copying the URL and opening it in the partner's session reproduces the same filters and view.
+
 **Plans:** TBD
 **UI hint**: yes
 
 ### Phase 3: Spend by Category
+
 **Goal:** As a business owner, I want to see spend by category, with AI suggestions I can correct, so that I know where the money goes.
 **Mode:** mvp
 **Depends on:** Phase 2
@@ -70,6 +101,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Each line shows whether its category came from AI or was set manually. The user can work through a queue of uncategorized and low-confidence lines.
   4. Re-running categorization never sends an already-classified concept to DeepSeek again. The outgoing payload contains only descriptions, SAT codes, amounts and supplier data, never the receptor's name, address or personal data. With DeepSeek unavailable, the app still loads with rule-based or "Sin clasificar" categories.
   5. When owner and partner save corrections at the same time, both corrections survive and neither silently overwrites the other.
+
 **Plans:** TBD
 **UI hint**: yes
 **Research flag**: This is an AI phase.
@@ -78,6 +110,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   - The largest supplier (~47% of net spend, generic admin-services description) needs a manual supplier default.
 
 ### Phase 4: IVA, Data Quality & Excel Export
+
 **Goal:** As a business owner, I want to check monthly IVA, fix data issues and export to Excel, so that I can share clean numbers.
 **Mode:** mvp
 **Depends on:** Phase 3
@@ -87,11 +120,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User sees a review panel listing duplicate UUIDs, XML without PDF, PDF without XML, invoices whose totals don't reconcile, omitted N/T documents and zero-total invoices. Figures carry the label "según XML, sin validar contra SAT".
   3. User uploads one or more XML files (and matching PDFs) from the browser. They are saved to the Drive folder as `YYYY-MM-DD_RFC_UUID.ext`, show up in the dashboard, and clear the matching "missing file" items. Re-uploading a UUID creates no duplicate.
   4. User exports the current view (summary, by category, by supplier, line detail, IVA) to an .xlsx file that opens in Excel. Money cells are numeric, and descriptions starting with "-", "=", "+" or "@" appear as plain text, never as formulas.
+
 **Plans:** TBD
 **UI hint**: yes
 **Research flag**: The accountant validates PPD IVA timing and S01 handling before the IVA view is shared.
 
 ### Phase 5: Products & Price Comparison
+
 **Goal:** As a business owner, I want to compare a product's unit price across suppliers, so that I buy where it is cheapest.
 **Mode:** mvp
 **Depends on:** Phase 3
@@ -101,6 +136,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User sets or confirms the base unit and quantity per line (e.g. 1 L, 12 pzas), and unit prices are recalculated per base unit.
   3. For each product group, user sees the net unit price (sin IVA) by supplier with the cheapest highlighted. Groups without comparable data show "sin datos comparables".
   4. User sees each product group's unit-price trend over time.
+
 **Plans:** TBD
 **UI hint**: yes
 **Research flag**: Spike grouping on real descriptions first. Only ~18 of ~120 ClaveProdServ codes have 2+ suppliers, so a comparison needs 2+ suppliers and 2+ observations.
