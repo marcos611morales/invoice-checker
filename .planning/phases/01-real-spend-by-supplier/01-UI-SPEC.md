@@ -21,7 +21,7 @@ created: "2026-10-09"
 | Tool | shadcn (`components.json` present, style `radix-nova`) |
 | Preset | `b2fA` — nova style, neutral base color, default radius (`--radius: 0.625rem`), menuAccent subtle. Source: `npx shadcn info`. |
 | Component library | radix (`radix-ui@1.7.0`) |
-| Icon library | lucide (`lucide-react@1.53.0`). Verified present: `Check`, `ArrowLeft`, `LoaderCircle`, `TriangleAlert`, `CircleAlert`, `FolderOpen`, `RefreshCw`, `ChevronRight`, `Info`. |
+| Icon library | lucide (`lucide-react@1.53.0`, the version in `package.json` and installed; the stack table in CLAUDE.md lists 1.54.0, which is not installed — this contract follows what is installed and the icons below exist in 1.53.0). Verified present: `Check`, `ArrowLeft`, `LoaderCircle`, `TriangleAlert`, `CircleAlert`, `FolderOpen`, `RefreshCw`, `ChevronRight`, `Info`. |
 | Charts | shadcn `chart` wrapper over Recharts 3.10.1 (already installed at `src/components/ui/chart.tsx`) |
 | Font | Geist Sans (body and headings), Geist Mono (not used in Phase 1 authored markup) — loaded in `src/app/layout.tsx` as `--font-geist-sans` / `--font-geist-mono` |
 | Theme | Light only. `.dark` tokens stay in `globals.css` untouched, but Phase 1 ships no theme toggle and nothing is designed or checked in dark. |
@@ -88,7 +88,7 @@ Layout rules:
 - Under 640px: header wraps (brand row, then nav row), the email is hidden under 768px, tables and the top-10 chart scroll horizontally inside their card.
 
 Exceptions:
-- 12px (`gap-3`) is allowed for header control clusters (email + sign-out) and for the numbered-step circle gap, as it already is in `src/app/(app)/layout.tsx`.
+- 12px (`gap-3`) is the **only** non-standard spacing value. It is allowed for header control clusters (email + sign-out) and for the numbered-step circle gap, as it already is in `src/app/(app)/layout.tsx`; it is deliberately not added to the scale table. No other off-scale gap, padding or margin is permitted.
 - Control heights follow the shadcn nova preset (`h-8` default, `h-9` for `lg`). This is a desktop-first internal tool, so the 44px mobile touch target is not enforced. Compensation: table rows keep at least 40px height (`py-2` on cells) so row links are comfortable to tap, and the primary button of each screen uses `size="lg"`.
 - Chart heights are fixed content boxes, not spacing tokens: monthly chart `h-[280px]`, top-10 chart `h-[400px]`.
 
@@ -125,7 +125,7 @@ The existing theme is pure neutral greyscale from the nova preset. It stays; Pha
 | Accent (10%) | `--chart-1` `oklch(0.52 0.10 215)` (about #0E7490); hover `--chart-2` | See reserved list below |
 | Destructive | `--destructive` `oklch(0.577 0.245 27.325)` (about #E7000B) | Failure alerts only |
 
-Primary buttons ("Sincronizar" in onboarding, "Guardar", "Ir a Ajustes", "Iniciar sesión con Google") use the preset `--primary` (near-black `oklch(0.205 0 0)`), not the teal accent. The progress fill also stays `bg-primary`.
+Primary buttons ("Sincronizar" in onboarding, "Guardar carpeta", "Ir a Ajustes", "Iniciar sesión con Google") use the preset `--primary` (near-black `oklch(0.205 0 0)`), not the teal accent. The progress fill also stays `bg-primary`.
 
 Accent reserved for (and nothing else):
 1. Bar fill in the three charts (monthly spend, top-10 suppliers, supplier-detail monthly spend); hovered bar uses `--chart-2`.
@@ -147,7 +147,7 @@ Left: brand text "Facturas — Análisis de gastos" (Body, 600; shows only "Fact
 ### Dashboard `/` — data present (`listo` with a non-null DTO), top to bottom
 1. **Page header** (flex, wraps, `gap-4`): `h1` "Gasto por proveedor" (Heading); right side, `YearSelect` (inline `Label` "Año" 14px + `Select` 120px wide) and `Badge variant="secondary"` "Montos con IVA (Total del XML)".
 2. **Sync strip** — a `Card` (default spacing) containing the whole `SyncButton`: left, the caption line ("Última sincronización: {hora}" / "Aún no se ha sincronizado", Caption); right, `Button variant="outline"` "Sincronizar" with a leading `RefreshCw` icon. When running or finished, the progress / summary block expands inside this same card under a `Separator` (see States).
-3. **Card "Gasto por mes"**: `CardHeader` has `CardTitle` "Gasto por mes" and `CardDescription` "Gasto total {anio}". Hero figure below the header: the total in Display (`tabular-nums`). Then the 12-month bar chart (`h-[280px]`).
+3. **Card "Gasto por mes"**: `CardHeader` has `CardTitle` "Gasto por mes" and `CardDescription` "Gasto total {anio}". Hero figure below the header: the total in Display (`tabular-nums`). **This hero total is the primary visual anchor (focal point) of `/`**: it is the largest text on the page (30px/600, the only Display element above the fold) and sits at the top-left of the first card, so the eye lands on it before the charts; nothing else on the page may use Display size on the dashboard. Then the 12-month bar chart (`h-[280px]`).
 4. **Card "Proveedores principales"**: `CardDescription` "Los 10 proveedores con más gasto en {anio} · montos con IVA". Horizontal bar chart (`h-[400px]`).
 5. **Card "Todos los proveedores"**: `CardDescription` "{n} proveedores · montos con IVA". The supplier `Table`.
 
@@ -169,12 +169,12 @@ Columns in order: **Proveedor** (left), **Gasto** (right), **% del total** (righ
 
 ### Ajustes `/ajustes` (Plan 01-05)
 `h1` "Ajustes", then one `Card` (max width 672px, `max-w-2xl`) titled "Carpeta de facturas" with `CardDescription` "Se cuentan los XML de la carpeta y de sus subcarpetas por año."
-- **Carpeta actual** block (Body): label "Carpeta actual", the folder name (600) and a `Badge variant="outline"` "Guardada en Drive" or "Predeterminada (variable de entorno)". If none is set, this block is replaced by "Aún no has elegido una carpeta." and, when `suggest()` returns results, a list "Carpetas llamadas Facturas en tu Drive:" with one row per folder (name + `Button size="sm" variant="outline"` "Usar esta carpeta", which fills the field and runs "Revisar").
-- **Form**: `Label` "Enlace o ID de la carpeta de Drive" + `Input` (placeholder `https://drive.google.com/drive/folders/…`), help text (Caption) "Pega el enlace de la carpeta o su ID." Buttons: "Revisar" (`outline`) and "Guardar" (`default`, disabled until a review succeeded; editing the field invalidates the review).
+- **Carpeta actual** block (Body): label "Carpeta actual", the folder name (600) and a `Badge variant="outline"` "Guardada en Drive" or "Predeterminada (variable de entorno)". If none is set, this block is replaced by "Aún no has elegido una carpeta." and, when `suggest()` returns results, a list "Carpetas llamadas Facturas en tu Drive:" with one row per folder (name + `Button size="sm" variant="outline"` "Usar esta carpeta", which fills the field and runs "Revisar carpeta").
+- **Form**: `Label` "Enlace o ID de la carpeta de Drive" + `Input` (placeholder `https://drive.google.com/drive/folders/…`), help text (Caption) "Pega el enlace de la carpeta o su ID." Buttons: "Revisar carpeta" (`outline`) and "Guardar carpeta" (`default`, disabled until a review succeeded; editing the field invalidates the review).
 - **Review result** (shown under the field, `aria-live="polite"`): "Carpeta: {nombre}" and "{N} XML encontrados (incluye subcarpetas)" (singular "1 XML encontrado"); if shortcuts were ignored, a third line "{k} accesos directos ignorados". If N is 0, an `Alert` (default) titled "No se encontraron archivos XML" with "Puedes guardar la carpeta, pero no habrá facturas que importar."
 - **Folder-change notice** (only when a folder already exists and the reviewed one differs): `Alert` (default, `Info` icon) "El resumen mostrará los datos guardados en la nueva carpeta (_app/). La carpeta anterior no se modifica."
 - Errors from the service (`entrada_invalida`, `no_encontrada`, `no_es_carpeta`, `en_papelera`, invalid pointer file, Drive authorization expired) render their Spanish `mensaje` verbatim in `Alert variant="destructive"` with a `CircleAlert` icon and title "No se pudo revisar la carpeta" (review) or "No se pudo guardar la carpeta" (save).
-- Pending: the pressed button is disabled and reads "Revisando…" or "Guardando…" with a `LoaderCircle` spinning icon.
+- Pending: the pressed button is disabled and reads "Revisando carpeta…" or "Guardando carpeta…" with a `LoaderCircle` spinning icon.
 - Success: sonner toast "Carpeta guardada"; the "Carpeta actual" block updates via `revalidatePath`.
 
 ### Onboarding (D-10), rendered on `/` instead of the dashboard
@@ -187,7 +187,7 @@ Centered `Card` (`max-w-xl`): `FolderOpen` icon (32px, muted), Heading "No hay f
 
 ### Loading, error and not-found routes (new files this contract adds)
 - `src/app/(app)/loading.tsx` and `src/app/(app)/proveedores/[rfc]/loading.tsx`: `Skeleton` layout matching the final page (header line 28px high, sync strip 72px, KPI + chart block 280px, top-10 block 400px, 8 table rows 40px), same container and gaps so nothing shifts when data arrives.
-- `src/app/(app)/error.tsx` (client): `Alert variant="destructive"` titled "No se pudieron cargar los datos", body "No pudimos leer las facturas guardadas en Drive. Intenta de nuevo; si sigue fallando, revisa la carpeta en Ajustes.", `Button` "Reintentar" (calls `reset`) and a link "Ir a Ajustes". Never render `error.message` (production strips it, and it can hold internals).
+- `src/app/(app)/error.tsx` (client): `Alert variant="destructive"` titled "No se pudieron cargar los datos", body "No pudimos leer las facturas guardadas en Drive. Intenta de nuevo; si sigue fallando, revisa la carpeta en Ajustes.", `Button` "Reintentar carga" (calls `reset`) and a link "Ir a Ajustes". Never render `error.message` (production strips it, and it can hold internals).
 - `src/app/(app)/not-found.tsx` (used by the supplier page's `notFound()`): Heading "Proveedor no encontrado", Body muted "No hay facturas de este proveedor en la carpeta.", link button "Volver a proveedores" to `/`. Add `src/app/not-found.tsx` with Heading "Página no encontrada" and a link "Ir al resumen" so unknown URLs are Spanish too.
 
 ### Existing screens (built in Plan 01-01, no change except the font fix)
@@ -230,7 +230,7 @@ All copy is Spanish (México), tú form, sentence case, no exclamation marks, no
 | App title | "Facturas — Análisis de gastos" |
 | Primary CTA (sync) | "Sincronizar" (running: "Sincronizando…") |
 | Primary CTA (setup) | "Ir a Ajustes" |
-| Primary CTA (settings) | "Guardar" (pending: "Guardando…"); secondary "Revisar" (pending: "Revisando…") |
+| Primary CTA (settings) | "Guardar carpeta" (pending: "Guardando carpeta…"); secondary "Revisar carpeta" (pending: "Revisando carpeta…") |
 | Sign-in / sign-out | "Iniciar sesión con Google" / "Cerrar sesión" / "Usar otra cuenta" |
 | Dashboard headings | "Gasto por proveedor", "Gasto por mes", "Proveedores principales", "Todos los proveedores" |
 | Basis label (D-15) | "Montos con IVA (Total del XML)" |
@@ -243,7 +243,7 @@ All copy is Spanish (México), tú form, sentence case, no exclamation marks, no
 | Sync timestamps | "Última sincronización: {fecha y hora}" / "Aún no se ha sincronizado" |
 | Error state: sync | Title "No se pudo completar la sincronización"; body = server `mensaje`; next step "Se importaron {done} de {total}. Presiona Sincronizar para continuar." Stalled: "La sincronización no avanzó; intenta de nuevo." |
 | Error state: Drive authorization | Server `mensaje` shown verbatim, e.g. "La autorización de Drive caducó. El dueño debe ejecutar `pnpm drive:auth` y actualizar DRIVE_REFRESH_TOKEN" (inline code styling for the command) |
-| Error state: page load | Title "No se pudieron cargar los datos"; body "No pudimos leer las facturas guardadas en Drive. Intenta de nuevo; si sigue fallando, revisa la carpeta en Ajustes."; buttons "Reintentar", "Ir a Ajustes" |
+| Error state: page load | Title "No se pudieron cargar los datos"; body "No pudimos leer las facturas guardadas en Drive. Intenta de nuevo; si sigue fallando, revisa la carpeta en Ajustes."; buttons "Reintentar carga", "Ir a Ajustes" |
 | Error state: Ajustes | Titles "No se pudo revisar la carpeta" / "No se pudo guardar la carpeta"; body = service `mensaje` ("Enlace o ID de carpeta no válido.", "No se encontró la carpeta o la cuenta del dueño no tiene acceso.", "El enlace no es una carpeta.", "La carpeta está en la papelera.") |
 | Ajustes copy | Title "Ajustes"; card "Carpeta de facturas"; "Se cuentan los XML de la carpeta y de sus subcarpetas por año."; label "Enlace o ID de la carpeta de Drive"; "{N} XML encontrados (incluye subcarpetas)" / "1 XML encontrado"; success toast "Carpeta guardada" |
 | Access denied (existing) | "Acceso denegado"; "Tu cuenta {email} no tiene acceso."; "Cierra sesión o prueba con otra cuenta de Google." |
@@ -263,10 +263,10 @@ Applicable state considerations resolved: 14 covered, 2 backstop, 2 unresolved.
 |----------|------------|--------|---------------------|
 | empty | list-collection (dashboard, supplier table) | ✅ covered | A null dashboard DTO never renders the zero-filled dashboard: `sin_carpeta` and `sin_sincronizar` render the guided steps and a synced folder with no Ingreso/Egreso renders "No hay facturas para mostrar en la carpeta" (copy in Copywriting Contract). |
 | loading | list-collection (dashboard `/`, supplier detail) | ✅ covered | `loading.tsx` renders a `Skeleton` page with the same container, gaps and block heights as the loaded page, so no layout shift. |
-| loading | interactive-control (SyncButton, Ajustes buttons, YearSelect) | ✅ covered | Each shows a disabled pending state: "Sincronizando…" with spinner plus progress bar, "Revisando…" / "Guardando…", select disabled with `aria-busy`. |
-| error | list-collection (page data load) | ✅ covered | `(app)/error.tsx` shows the generic Spanish alert with "Reintentar" and a link to Ajustes; it never prints `error.message`. |
+| loading | interactive-control (SyncButton, Ajustes buttons, YearSelect) | ✅ covered | Each shows a disabled pending state: "Sincronizando…" with spinner plus progress bar, "Revisando carpeta…" / "Guardando carpeta…", select disabled with `aria-busy`. |
+| error | list-collection (page data load) | ✅ covered | `(app)/error.tsx` shows the generic Spanish alert with "Reintentar carga" and a link to Ajustes; it never prints `error.message`. |
 | error | interactive-control (sync) | ✅ covered | Inline destructive `Alert` with the server `mensaje`; counts so far stay; Sincronizar resumes; stalled and 60-call guards have their own copy. |
-| error | form (Ajustes) | ✅ covered | Each service error code maps to its Spanish `mensaje` in a destructive `Alert`; Guardar stays disabled until a review succeeds. |
+| error | form (Ajustes) | ✅ covered | Each service error code maps to its Spanish `mensaje` in a destructive `Alert`; "Guardar carpeta" stays disabled until a review succeeds. |
 | partial | list-collection (sync cut off) | ✅ covered | A partial run keeps the previous "Última sincronización" caption (only a finished run updates it) and shows "Se importaron {done} de {total}" with the resume instruction. |
 | partial | media (charts) | ✅ covered | Months with no invoices stay on the axis as zero (no bar), so Jan to Apr 2025 (one penny invoice each) read as essentially empty while the tooltip still gives the exact amount. |
 | overflow | list-collection (supplier table, 39 rows) | ✅ covered | All rows render in page flow with no pagination; the table wrapper scrolls horizontally under 640px. |
@@ -298,9 +298,10 @@ Differences between this contract and the plans, all additive or layout-only. No
 
 1. **Plan 01-08**: the `SyncButton` sits in its own full-width strip card under the page header (not inside the header's right cluster) so the progress bar and summary have room. Hero total is shown as "Gasto total {anio}" label + Display amount (two elements) instead of the single string "Gasto total {anio}: {amount}". Card titles/descriptions and the 200px axis width, `LabelList`, `role="img"` labels and `isAnimationActive={false}` are specified here.
 2. **Plan 01-07**: adds the "Contado" / "No contado" badge per problem (needs a small code-to-counted map: `total_no_cuadra` and `moneda_extranjera` count, all others do not) and the failure/stall alerts and `Actualizadas` / `Eliminadas` counts.
-3. **Plan 01-05**: adds the folder-change notice, the 0-XML notice, and pending labels; nav links render through a client `AppNav` for the active indicator.
+3. **Plan 01-05**: renames the Ajustes buttons from "Revisar" / "Guardar" to "Revisar carpeta" / "Guardar carpeta" (pending "Revisando carpeta…" / "Guardando carpeta…"; the plan's `Guardar enabled after a successful review` and the human-check wording "Revisar ... Guardar" refer to these buttons; the success toast stays "Carpeta guardada"), adds the folder-change notice, the 0-XML notice, and pending labels; nav links render through a client `AppNav` for the active indicator.
 4. **Plan 01-10**: onboarding card title, step copy and no-data state are fixed above; `loading.tsx`, `error.tsx` and `not-found.tsx` files are new and belong to the dashboard / detail plans (01-08 and 01-10) respectively.
-5. **Plan 01-01 residue**: `globals.css` font variable fix and chart token replacement (see Design System) must land with the first plan that renders a chart (Plan 01-08 Task 1).
+5. **Locked label kept as is**: "Sincronizar" stays a bare verb because D-05 names the button and Plans 01-06/07/10 grep for it; its context (page heading, "Última sincronización" caption) supplies the noun.
+6. **Plan 01-01 residue**: `globals.css` font variable fix and chart token replacement (see Design System) must land with the first plan that renders a chart (Plan 01-08 Task 1).
 
 ---
 
