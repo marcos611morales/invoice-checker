@@ -67,6 +67,8 @@ Ver con claridad en qué se va el dinero: gasto por categoría y por proveedor, 
 | DeepSeek para la IA | Elección del usuario (costo) | — Pending |
 | IA propone agrupación/categorías y el usuario corrige | Balance entre automatización y precisión | — Pending |
 | Login con Google y allowlist | Encaja con la API de Drive; protege datos fiscales | — Pending |
+| Cuenta de Google = Gmail personal (no Workspace) | Respuesta del usuario; descarta la Unidad Compartida y la cuenta de servicio con cuota. Drive se accede con un OAuth del dueño y la pantalla de consentimiento debe publicarse como "In production" para que el refresh token no caduque a los 7 días | — Pending |
+| Datos enviados a DeepSeek: sí descripciones, claves SAT, montos y proveedores; nunca nombre, dirección ni datos personales del dueño (receptor) | Preferencia del usuario | — Pending |
 
 ## Evolution
 
