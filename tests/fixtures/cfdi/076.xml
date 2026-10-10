@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Certificado="CERTIFICADO" CondicionesDePago="Inmediatamente" Exportacion="01" Fecha="2025-09-01T13:53:13" Folio="76" FormaPago="30" LugarExpedicion="00000" MetodoPago="PUE" Moneda="MXN" NoCertificado="00001000000000000000" Sello="SELLO" Serie="A" SubTotal="862.07" TipoCambio="1" TipoDeComprobante="E" Total="1000" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd">
+    <cfdi:CfdiRelacionados TipoRelacion="07">
+        <cfdi:CfdiRelacionado UUID="AAAAAAAA-0000-4000-8000-000000000040" />
+    </cfdi:CfdiRelacionados>
+    <cfdi:Emisor Nombre="PROVEEDOR 017 SA DE CV" RegimenFiscal="601" Rfc="EMI01010100H" />
+    <cfdi:Receptor DomicilioFiscalReceptor="00000" Nombre="RECEPTOR DE PRUEBA SA DE CV" RegimenFiscalReceptor="626" Rfc="RCP010101AA1" UsoCFDI="G02" />
+    <cfdi:Conceptos>
+        <cfdi:Concepto Cantidad="1" ClaveProdServ="84111506" ClaveUnidad="ACT" Descripcion="CONCEPTO 0060" Importe="862.07" ObjetoImp="02" Unidad="Pieza" ValorUnitario="862.07">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Base="862.07" Importe="137.93" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+                </cfdi:Traslados>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos TotalImpuestosTrasladados="137.93">
+        <cfdi:Traslados>
+            <cfdi:Traslado Base="862.07" Importe="137.93" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+    <cfdi:Complemento><tfd:TimbreFiscalDigital xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="AAAAAAAA-0000-4000-8000-000000000045" FechaTimbrado="2025-09-01T15:34:23" SelloCFD="SELLO" NoCertificadoSAT="00001000000000000000" SelloSAT="SELLO" RfcProvCertif="PAC010101AA1" /></cfdi:Complemento></cfdi:Comprobante>

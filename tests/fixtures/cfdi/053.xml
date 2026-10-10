@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:implocal="http://www.sat.gob.mx/implocal" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iedu="http://www.sat.gob.mx/iedu" xmlns:ine="http://www.sat.gob.mx/ine" xmlns:registrofiscal="http://www.sat.gob.mx/registrofiscal" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd http://www.sat.gob.mx/implocal http://www.sat.gob.mx/sitio_internet/cfd/implocal/implocal.xsd http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd http://www.sat.gob.mx/iedu http://www.sat.gob.mx/sitio_internet/cfd/iedu/iedu.xsd  http://www.sat.gob.mx/ine http://www.sat.gob.mx/sitio_internet/cfd/INE11.xsd  http://www.sat.gob.mx/registrofiscal http://www.sat.gob.mx/sitio_internet/cfd/cfdiregistrofiscal/cfdiregistrofiscal.xsd" Version="4.0" Serie="A" Folio="53" Fecha="2025-08-08T16:40:08" Sello="SELLO" FormaPago="03" NoCertificado="00001000000000000000" Certificado="CERTIFICADO" CondicionesDePago="PLAN DE CONTADO" SubTotal="1320.31" Descuento="0.00" TipoCambio="1" Moneda="MXN" Total="1411.75" TipoDeComprobante="I" MetodoPago="PUE" Exportacion="01" LugarExpedicion="00000">
+<cfdi:Emisor Rfc="EMI010101005" Nombre="PROVEEDOR 005 SA DE CV" RegimenFiscal="601" />
+<cfdi:Receptor Rfc="RCP010101AA1" Nombre="RECEPTOR DE PRUEBA SA DE CV" UsoCFDI="G03" DomicilioFiscalReceptor="00000" RegimenFiscalReceptor="626" />
+<cfdi:Conceptos>
+<cfdi:Concepto ClaveProdServ="50101717" NoIdentificacion="SKU" Cantidad="0.5000" ClaveUnidad="KGM" Unidad="Pieza" Descripcion="CONCEPTO 0156" ValorUnitario="335.0000" Importe="167.50" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="167.500000" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="50201715" NoIdentificacion="SKU" Cantidad="1.0000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="CONCEPTO 0208" ValorUnitario="306.0000" Importe="306.00" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="306.000000" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="12171500" NoIdentificacion="SKU" Cantidad="1.0000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="CONCEPTO 0104" ValorUnitario="190.5172" Importe="190.52" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="190.517241" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="30.48" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="12171500" NoIdentificacion="SKU" Cantidad="1.0000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="CONCEPTO 0102" ValorUnitario="190.5172" Importe="190.52" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="190.517241" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="30.48" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="12171500" NoIdentificacion="SKU" Cantidad="1.0000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="CONCEPTO 0103" ValorUnitario="190.5172" Importe="190.52" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="190.517241" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="30.48" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="50131800" NoIdentificacion="SKU" Cantidad="0.5000" ClaveUnidad="KGM" Unidad="Pieza" Descripcion="CONCEPTO 0186" ValorUnitario="123.0000" Importe="61.50" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="61.500000" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="50181900" NoIdentificacion="SKU" Cantidad="1.0000" ClaveUnidad="KGM" Unidad="Pieza" Descripcion="CONCEPTO 0078" ValorUnitario="122.0000" Importe="122.00" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="122.000000" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="50171830" NoIdentificacion="SKU" Cantidad="1.0000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="CONCEPTO 0196" ValorUnitario="45.0000" Importe="45.00" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="45.000000" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto ClaveProdServ="50161800" NoIdentificacion="SKU" Cantidad="0.2500" ClaveUnidad="KGM" Unidad="Pieza" Descripcion="CONCEPTO 0054" ValorUnitario="187.0000" Importe="46.75" Descuento="0.00" ObjetoImp="02">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="46.750000" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+</cfdi:Conceptos>
+<cfdi:Impuestos TotalImpuestosTrasladados="91.44">
+<cfdi:Traslados>
+<cfdi:Traslado Base="571.55" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="91.44" />
+<cfdi:Traslado Base="748.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00" />
+</cfdi:Traslados>
+</cfdi:Impuestos>
+<cfdi:Complemento><tfd:TimbreFiscalDigital xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="AAAAAAAA-0000-4000-8000-000000000088" FechaTimbrado="2025-08-08T16:41:18" SelloCFD="SELLO" NoCertificadoSAT="00001000000000000000" SelloSAT="SELLO" RfcProvCertif="PAC010101AA1" /></cfdi:Complemento></cfdi:Comprobante>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Certificado="CERTIFICADO" CondicionesDePago="Inmediatamente" Exportacion="01" Fecha="2025-05-01T09:57:05" Folio="5" FormaPago="99" LugarExpedicion="00000" MetodoPago="PPD" Moneda="MXN" NoCertificado="00001000000000000000" Sello="SELLO" Serie="A" SubTotal="138.53" TipoCambio="1" TipoDeComprobante="I" Total="160.69" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd">
+    <cfdi:Emisor Nombre="PROVEEDOR 017 SA DE CV" RegimenFiscal="601" Rfc="EMI01010100H" />
+    <cfdi:Receptor DomicilioFiscalReceptor="00000" Nombre="RECEPTOR DE PRUEBA SA DE CV" RegimenFiscalReceptor="626" Rfc="RCP010101AA1" UsoCFDI="G03" />
+    <cfdi:Conceptos>
+        <cfdi:Concepto Cantidad="1" ClaveProdServ="84111506" ClaveUnidad="ACT" Descripcion="CONCEPTO 0184" Importe="138.53" ObjetoImp="02" Unidad="Pieza" ValorUnitario="138.53">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Base="138.53" Importe="22.16" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+                </cfdi:Traslados>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos TotalImpuestosTrasladados="22.16">
+        <cfdi:Traslados>
+            <cfdi:Traslado Base="138.53" Importe="22.16" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+    <cfdi:Complemento><tfd:TimbreFiscalDigital xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="AAAAAAAA-0000-4000-8000-000000000131" FechaTimbrado="2025-05-01T12:28:04" SelloCFD="SELLO" NoCertificadoSAT="00001000000000000000" SelloSAT="SELLO" RfcProvCertif="PAC010101AA1" /></cfdi:Complemento></cfdi:Comprobante>
