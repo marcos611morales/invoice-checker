@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Serie="A" Folio="114" Fecha="2025-11-07T12:09:23" TipoDeComprobante="I" Moneda="MXN" Exportacion="01" LugarExpedicion="00000" MetodoPago="PUE" FormaPago="28" SubTotal="5657.00" Descuento="0.00" Total="5657.00" NoCertificado="00001000000000000000" Certificado="CERTIFICADO" Sello="SELLO">
+  <cfdi:Emisor Rfc="EMI01010100Q" Nombre="PROVEEDOR 026 SA DE CV" RegimenFiscal="603" />
+  <cfdi:Receptor Rfc="RCP010101AA1" Nombre="RECEPTOR DE PRUEBA SA DE CV" DomicilioFiscalReceptor="00000" RegimenFiscalReceptor="626" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="93161700" Cantidad="1.0" ClaveUnidad="E48" Unidad="Pieza" Descripcion="CONCEPTO 0226" ValorUnitario="5657.00" Importe="5657.00" Descuento="0.00" ObjetoImp="01" />
+  </cfdi:Conceptos>
+  <cfdi:Complemento xmlns:cfdi="http://www.sat.gob.mx/cfd/4">
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="AAAAAAAA-0000-4000-8000-000000000056" FechaTimbrado="2025-11-07T12:09:25" RfcProvCertif="PAC010101AA1" SelloCFD="SELLO" NoCertificadoSAT="00001000000000000000" SelloSAT="SELLO" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

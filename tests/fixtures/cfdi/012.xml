@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Certificado="CERTIFICADO" Exportacion="01" Fecha="2025-05-30T00:00:00" Folio="12" FormaPago="03" LugarExpedicion="00000" MetodoPago="PUE" Moneda="MXN" NoCertificado="00001000000000000000" Sello="SELLO" Serie="A" SubTotal="206.03" TipoCambio="1" TipoDeComprobante="I" Total="238.99" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd">
+        <cfdi:Emisor Nombre="PROVEEDOR 011 SA DE CV" RegimenFiscal="601" Rfc="EMI01010100B" />
+        <cfdi:Receptor DomicilioFiscalReceptor="00000" Nombre="RECEPTOR DE PRUEBA SA DE CV" RegimenFiscalReceptor="626" Rfc="RCP010101AA1" UsoCFDI="G03" />
+        <cfdi:Conceptos>
+            <cfdi:Concepto Cantidad="1.0" ClaveProdServ="26121604" ClaveUnidad="H87" Descripcion="CONCEPTO 0059" Importe="206.03" NoIdentificacion="SKU" ObjetoImp="02" Unidad="Pieza" ValorUnitario="206.03">
+                <cfdi:Impuestos>
+                    <cfdi:Traslados>
+                        <cfdi:Traslado Base="206.03" Importe="32.96" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+                    </cfdi:Traslados>
+                </cfdi:Impuestos>
+            </cfdi:Concepto>
+        </cfdi:Conceptos>
+        <cfdi:Impuestos TotalImpuestosTrasladados="32.96">
+            <cfdi:Traslados>
+                <cfdi:Traslado Base="206.03" Importe="32.96" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+            </cfdi:Traslados>
+        </cfdi:Impuestos>
+    <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="AAAAAAAA-0000-4000-8000-000000000138" FechaTimbrado="2025-05-30T11:24:12" RfcProvCertif="PAC010101AA1" SelloCFD="SELLO" NoCertificadoSAT="00001000000000000000" SelloSAT="SELLO" /></cfdi:Complemento></cfdi:Comprobante>
