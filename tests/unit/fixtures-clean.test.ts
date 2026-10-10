@@ -24,14 +24,20 @@ const TESTS_DIR = join(REPO_ROOT, "tests");
 const CFDI_DIR = join(TESTS_DIR, "fixtures", "cfdi");
 const SYNTHETIC_DIR = join(TESTS_DIR, "fixtures", "synthetic");
 
-// --- Matchers (stubbed for the RED step: accept everything) -----------------
+// --- Matchers: strict allowlists, anything else is a leak -------------------
 
-const isAllowedRfc = (value: string): boolean => value.length >= 0;
-const isAllowedUuid = (value: string): boolean => value.length >= 0;
-const isAllowedNombre = (value: string): boolean => value.length >= 0;
-const isAllowedSello = (value: string): boolean => value.length >= 0;
-const isAllowedCertificado = (value: string): boolean => value.length >= 0;
-const isAllowedAccount = (value: string): boolean => value.length >= 0;
+const RFC_PLACEHOLDER =
+  /^(?:EMIX?010101[0-9A-Z]{3}|RCP010101AA1|PAC010101AA1|BAN010101AA1|TER010101AA1|SIN010101[0-9A-Z]{3}|XAXX010101000|XEXX010101000)$/;
+const UUID_PLACEHOLDER = /^(?:AAAAAAAA|BBBBBBBB)-0000-4000-8000-[0-9]{12}$/i;
+const NOMBRE_PLACEHOLDER =
+  /^(?:PROVEEDOR [0-9]{3} SA DE CV|RECEPTOR DE PRUEBA SA DE CV|TERCERO DE PRUEBA|SINTETICO.*)$/;
+
+const isAllowedRfc = (value: string): boolean => RFC_PLACEHOLDER.test(value);
+const isAllowedUuid = (value: string): boolean => UUID_PLACEHOLDER.test(value);
+const isAllowedNombre = (value: string): boolean => NOMBRE_PLACEHOLDER.test(value);
+const isAllowedSello = (value: string): boolean => value === "SELLO";
+const isAllowedCertificado = (value: string): boolean => value === "CERTIFICADO";
+const isAllowedAccount = (value: string): boolean => /^0+$/.test(value);
 
 // --- Helpers ----------------------------------------------------------------
 
