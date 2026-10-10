@@ -29,7 +29,7 @@
 - [ ] **LEDG-04**: Related CFDI chains (TipoRelacion 07 anticipo application, 04 substitution) are resolved so spend is not double-counted (e.g. Google Ads anticipo + cancelación de prepago nets correctly)
 - [ ] **LEDG-05**: Line-level discounts are applied to each concept's net amount (Importe − Descuento) without subtracting the header discount again
 - [ ] **LEDG-06**: Taxes are captured per line in buckets: IVA 16%, IVA 0%, exento, no objeto, IEPS (as cost, not IVA), retenciones
-- [ ] **LEDG-07**: Parser is covered by automated tests against the real sample (anonymized fixtures committed; real files stay git-ignored)
+- [x] **LEDG-07**: Parser is covered by automated tests against the real sample (anonymized fixtures committed; real files stay git-ignored)
 
 ### Dashboard
 
@@ -133,7 +133,7 @@
 | LEDG-04 | Phase 2 | Pending |
 | LEDG-05 | Phase 2 | Pending |
 | LEDG-06 | Phase 2 | Pending |
-| LEDG-07 | Phase 1 | Pending |
+| LEDG-07 | Phase 1 | Complete |
 | DASH-01 | Phase 2 | Pending |
 | DASH-02 | Phase 2 | Pending |
 | DASH-03 | Phase 3 | Pending |
