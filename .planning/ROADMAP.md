@@ -52,17 +52,17 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 01-04-PLAN.md — CFDI 4.0 parser, exact-decimal spend rules, reconciliation, golden totals (Wave 3)
-- [ ] 01-05-PLAN.md — Skeleton: Ajustes folder (pointer + `_app/`) on real Drive, Vercel deploy, health check, keep-alive (Wave 3)
+- [ ] 01-05-PLAN.md — Skeleton: Ajustes folder (pointer + `_app/`) on real Drive with the UI-SPEC states, shared shell with AppNav, Vercel deploy, health check, keep-alive (Wave 3)
 
 **Wave 4** *(blocked on Wave 3 completion)*
-- [ ] 01-06-PLAN.md — First sync into `_app/` JSON through storage ports, in-memory fakes, contract suite (Wave 4)
+- [ ] 01-06-PLAN.md — First sync into `_app/` JSON through storage ports, in-memory fakes, contract suite, sync strip and invalid-state alert (Wave 4)
 
 **Wave 5** *(blocked on Wave 4 completion)*
-- [ ] 01-07-PLAN.md — Resumable sync with progress, Drive mirroring, UUID dedupe, problem list (Wave 5)
-- [ ] 01-08-PLAN.md — Spend-by-supplier dashboard (monthly bars, top 10, table, year selector, es-MX formatters) (Wave 5)
+- [ ] 01-07-PLAN.md — Resumable sync with progress, Drive mirroring, UUID dedupe, problem list with Contado/No contado, failure/stall alerts, Ver resumen (Wave 5)
+- [ ] 01-08-PLAN.md — Spend-by-supplier dashboard per UI-SPEC (monthly bars, top 10, table, year selector, es-MX formatters, font/chart tokens, loading and error routes) (Wave 5)
 
 **Wave 6** *(blocked on Wave 5 completion)*
-- [ ] 01-10-PLAN.md — Supplier detail page, guided first-run steps, es-MX format tests, real-XML Telmex / Google Ads cross-check (Wave 6)
+- [ ] 01-10-PLAN.md — Supplier detail page and 404s, guided first-run steps and no-data state, es-MX format tests, real-XML Telmex / Google Ads cross-check (Wave 6)
 
 **Wave 7** *(blocked on Wave 6 completion)*
 - [ ] 01-09-PLAN.md — Hardening: entry-point guard, anonymous smoke in prod, If-Match spike, day-8 AUTH-05 check; runs last (Wave 7)

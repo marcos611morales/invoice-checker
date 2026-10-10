@@ -39,17 +39,17 @@ created: "2026-10-09"
 
 ## Per-Task Verification Map
 
-Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point to the STRIDE registers in each PLAN.md. Extra suites added by the plans: `tests/unit/require-user.test.ts` (AUTH-02), `tests/integration/first-sync.test.ts` (ING-02, STOR-01), `tests/unit/entrypoints-guarded.test.ts` (AUTH-02).
+Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point to the STRIDE registers in each PLAN.md. Extra suites added by the plans: `tests/unit/require-user.test.ts` (AUTH-02), `tests/integration/first-sync.test.ts` (ING-02, STOR-01), `tests/unit/entrypoints-guarded.test.ts` (AUTH-02, also bans data imports in loading/error/not-found files), `tests/unit/mensaje.test.ts` (Plan 01-05, server-message rendering), `tests/unit/sync-run.test.ts` (Plan 01-07, client sync loop states). UI contract: `01-UI-SPEC.md` (approved 2026-10-09); its UI Considerations rows are lifted into the `must_haves.truths` of Plans 01-05..01-10 (`[ui ...]` tags; two backstop rows in 01-08 and 01-10).
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
 | 01-01-T2 | 01-01 | 1 | AUTH-01 | T-01-05 | Google login configured identity-only | unit + manual UAT | `pnpm vitest run tests/unit/auth-config.test.ts` | ❌ W0 | ⬜ pending |
-| 01-01-T3, 01-09-T1 | 01-01, 01-09 | 1, 7 | AUTH-02 | T-01-01, T-01-02, T-01-35, T-01-42 | Non-allowlisted denied on every page, action, route | unit + integration + structural | `pnpm vitest run tests/unit/allowlist.test.ts tests/unit/entrypoints-guarded.test.ts` | ❌ W0 | ⬜ pending |
+| 01-01-T3, 01-09-T1 | 01-01, 01-09 | 1, 7 | AUTH-02 | T-01-01, T-01-02, T-01-35, T-01-42, T-01-47, T-01-48 | Non-allowlisted denied on every page, action, route | unit + integration + structural | `pnpm vitest run tests/unit/allowlist.test.ts tests/unit/entrypoints-guarded.test.ts` | ❌ W0 | ⬜ pending |
 | 01-01-T3, 01-05-T2 | 01-01, 01-05 | 1, 3 | AUTH-03 | T-01-04 | 30-day sliding session; logout clears cookie | unit + manual UAT | `pnpm vitest run tests/unit/auth-config.test.ts` | ❌ W0 | ⬜ pending |
 | 01-01-T2, 01-05-T2, 01-09-T1 | 01-01, 01-05, 01-09 | 1, 3, 7 | AUTH-04 | T-01-22 | Anonymous request redirected to /login | e2e smoke | `pnpm exec playwright test tests/e2e/anonymous.spec.ts` | ❌ W0 | ⬜ pending |
 | 01-02-T1, 01-02-T3, 01-09-T2 | 01-02, 01-09 | 2, 7 | AUTH-05 | T-01-06, T-01-08, T-01-09, T-01-37 | `invalid_grant` maps to Spanish operator message; token never logged | unit + manual day-8/day-30 | `pnpm vitest run tests/unit/drive-errors.test.ts` | ❌ W0 | ⬜ pending |
-| 01-05-T1, 01-06-T3 | 01-05, 01-06 | 3, 4 | ING-01 | T-01-18, T-01-19 | Folder input parsed/validated via zod | unit | `pnpm vitest run tests/unit/settings-service.test.ts` | ❌ W0 | ⬜ pending |
-| 01-06-T1, 01-07-T1 | 01-06, 01-07 | 4, 5 | ING-02 | T-01-28 | Sync resumes and converges | unit | `pnpm vitest run tests/unit/sync-service.test.ts` | ❌ W0 | ⬜ pending |
+| 01-05-T1, 01-05-T2, 01-06-T3 | 01-05, 01-06 | 3, 4 | ING-01 | T-01-18, T-01-19, T-01-45, T-01-46 | Folder input parsed/validated via zod; save re-inspects server-side | unit | `pnpm vitest run tests/unit/settings-service.test.ts tests/unit/mensaje.test.ts` | ❌ W0 | ⬜ pending |
+| 01-06-T1, 01-07-T1 | 01-06, 01-07 | 4, 5 | ING-02 | T-01-28 | Sync resumes and converges; client loop states (stall, 60-call guard) | unit | `pnpm vitest run tests/unit/sync-service.test.ts tests/unit/sync-run.test.ts` | ❌ W0 | ⬜ pending |
 | 01-06-T1, 01-07-T2 | 01-06, 01-07 | 4, 5 | ING-04 | T-01-27, T-01-29 | Same UUID never duplicated | unit | `pnpm vitest run tests/unit/sync-dedupe.test.ts` | ❌ W0 | ⬜ pending |
 | 01-04-T1, 01-04-T2 | 01-04 | 3 | LEDG-01 | T-01-14, T-01-15, T-01-17 | DTD/ENTITY rejected; 143 fixtures + synthetic parse | unit | `pnpm vitest run tests/unit/cfdi-parse.test.ts` | ❌ W0 | ⬜ pending |
 | 01-04-T3 | 01-04 | 3 | LEDG-02 | T-01-16 | Exact decimals; recon within 0.10 | unit | `pnpm vitest run tests/unit/money-recon.test.ts` | ❌ W0 | ⬜ pending |
@@ -57,8 +57,8 @@ Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point t
 | 01-03-T1, 01-03-T2 | 01-03 | 2 | LEDG-07 | T-01-11, T-01-12, T-01-13 | No real RFC/UUID/name in fixtures; count == 143 | unit | `pnpm vitest run tests/unit/fixtures-clean.test.ts` | ❌ W0 | ⬜ pending |
 | 01-06-T1, 01-06-T3 | 01-06 | 4 | STOR-01 | T-01-24, T-01-25 | State only under `_app/`, zod-validated before write | contract | `pnpm vitest run tests/contract` | ❌ W0 | ⬜ pending |
 | 01-06-T3 | 01-06 | 4 | STOR-03 | T-01-24 | Same behavior on memory fake and Drive-backed repo | contract | `pnpm vitest run tests/contract` | ❌ W0 | ⬜ pending |
-| 01-08-T1, 01-08-T2, 01-10-T1, 01-10-T3 | 01-08, 01-10 | 5, 6 | DASH-04 | T-01-31, T-01-32, T-01-33, T-01-41, T-01-43, T-01-44 | Ranking/monthly evolution and supplier-detail goldens; names rendered escaped | unit + manual UAT | `pnpm vitest run tests/unit/analytics.test.ts tests/unit/supplier-detail.test.ts` | ❌ W0 | ⬜ pending |
-| 01-01-T2, 01-08-T1, 01-10-T2 | 01-01, 01-08, 01-10 | 1, 5, 6 | DASH-09 | — | es-MX MXN formatting; `lang="es-MX"` | unit | `pnpm vitest run tests/unit/format.test.ts` | ❌ W0 | ⬜ pending |
+| 01-08-T1, 01-08-T2, 01-08-T3, 01-10-T1, 01-10-T3 | 01-08, 01-10 | 5, 6 | DASH-04 | T-01-31, T-01-32, T-01-33, T-01-41, T-01-43, T-01-44, T-01-47 | Ranking/monthly evolution and supplier-detail goldens; names rendered escaped | unit + manual UAT | `pnpm vitest run tests/unit/analytics.test.ts tests/unit/supplier-detail.test.ts` | ❌ W0 | ⬜ pending |
+| 01-01-T2, 01-05-T3, 01-08-T1, 01-10-T2 | 01-01, 01-05, 01-08, 01-10 | 1, 3, 5, 6 | DASH-09 | — | es-MX MXN formatting; `lang="es-MX"` | unit | `pnpm vitest run tests/unit/format.test.ts` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -85,6 +85,7 @@ Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point t
 | Drive keeps working after 7 and 30 days | AUTH-05 | Only provable by waiting | Run a sync on day 8 and day 30 after minting the token; record in STATE.md |
 | Dashboard renders ranking + monthly evolution | DASH-04 | RSC render not unit-testable | Sync the 2025 sample; compare Telmex and Google Ads to goldens |
 | Drive `If-Match` probe outcome | — (spike) | Needs owner credentials | Run `pnpm spike:drive`; record outcome in PROJECT.md Key Decisions |
+| 01-UI-SPEC visual backstops: teal chart bars visible on white; populated dashboard at 1280px and 390px with no clipped labels or page scroll | DASH-04, DASH-09 | CSS result and responsive layout are not unit-testable | Plan 01-08 Task 3 and Plan 01-10 Task 3 human checks |
 
 ---
 
