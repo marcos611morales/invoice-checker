@@ -64,6 +64,7 @@ Recent decisions affecting current work:
 - [Init]: CFDI XML is the source of truth. All state is JSON in `Facturas/_app/` behind a storage interface, with no database in v1.
 - [Init]: DeepSeek receives descriptions, SAT codes, amounts and supplier data only, never receptor or personal data.
 - [Roadmap]: Vertical MVP in 5 phases, all `**Mode:** mvp`. Real numbers without AI in Phase 1; categories in Phase 3; product grouping and price comparison last (user confirmed).
+- [2026-10-12, Phase 1 re-scope, user decision under time pressure]: Drive connection is DEFERRED to a later phase. Phase 1 ingests invoices by direct manual upload of XML files in the browser, parsed and stored ONLY in the uploader's browser (IndexedDB) — no server-side storage, nothing shared between owner and partner yet. Google login with the email allowlist STAYS (identity scopes only; no Drive scope, so the consent screen does not need publishing). Plan 01-02 is paused at its owner checkpoint (Task 1 code merged, f9355b4) and moves with the Drive work; plans 01-05..01-10 (Ajustes folder, Drive sync, `_app/` JSON) must be re-planned around upload + browser storage. 01-01, 01-03 and 01-04 (parser/spend rules) are unaffected. Keep the storage interface (STOR-03) so Drive can replace browser storage later.
 
 ### Pending Todos
 
@@ -71,7 +72,8 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 1]: The Drive credential path is unproven (owner refresh token, "In production", Better Auth + refresh). The spike must pass before anything builds on it.
+- [Phase 1 — RE-PLAN REQUIRED]: Plans 01-05..01-10 assume Drive storage and sync; they no longer match the 2026-10-12 re-scope (upload + browser-only storage). Do not execute them before `/gsd-plan-phase 01` revises them.
+- [Deferred with Drive]: The Drive credential path is unproven (owner refresh token, "In production", Better Auth + refresh). The spike must pass before anything builds on it.
 - [Phase 1]: The Drive JSON write-concurrency policy is undecided (`If-Match` behavior). The spike decides it, and Phase 3 (STOR-02) depends on it.
 - [Phase 1]: AUTH-05 asks for 30 days without re-authorizing. The phase can only verify more than 7 days, so re-check Drive access 30 days after the owner authorizes.
 - [Phase 3]: Confirm DeepSeek's retention terms and current model ID, and build a golden set of 50–100 owner-labeled lines, before sending real data.
