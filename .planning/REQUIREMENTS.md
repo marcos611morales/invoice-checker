@@ -20,6 +20,7 @@
 - [ ] **ING-03**: User can upload one or more XML (and matching PDF) files manually from the browser; uploaded files are saved to the Drive folder with canonical name `YYYY-MM-DD_RFC_UUID.ext`
 - [ ] **ING-04**: Importing the same invoice twice (same TFD UUID, via Drive or upload) never creates a duplicate record
 - [ ] **ING-05**: Each invoice's PDF is paired with its XML by UUID and can be opened from the app
+- [ ] **ING-06**: User can upload one or more CFDI XML files from the browser (several at once or by dragging them in); they are parsed in the browser and the files never leave the user's computer
 
 ### Ledger (CFDI parsing & spend engine)
 
@@ -79,6 +80,7 @@
 - [ ] **STOR-01**: All app state (parsed index, AI cache, corrections, product groups) is stored as JSON files in the Drive folder (`_app/`); no database
 - [ ] **STOR-02**: Two users editing at the same time don't silently overwrite each other's corrections
 - [ ] **STOR-03**: Storage is behind an interface so it can be swapped for a database later without touching analytics/UI
+- [ ] **STOR-04**: Uploaded invoices are stored only in that browser (IndexedDB), never on the server and never shared with the partner; they survive page reloads and are deleted on sign-out or with a delete button
 
 ## v2 Requirements
 
@@ -121,12 +123,13 @@
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Pending |
-| AUTH-05 | Phase 1 | Pending |
-| ING-01 | Phase 1 | Pending |
-| ING-02 | Phase 1 | Pending |
-| ING-03 | Phase 4 | Pending |
+| AUTH-05 | Phase 6 | Pending |
+| ING-01 | Phase 6 | Pending |
+| ING-02 | Phase 6 | Pending |
+| ING-03 | Phase 6 | Pending |
 | ING-04 | Phase 1 | Pending |
 | ING-05 | Phase 2 | Pending |
+| ING-06 | Phase 1 | Pending |
 | LEDG-01 | Phase 1 | Pending |
 | LEDG-02 | Phase 1 | Pending |
 | LEDG-03 | Phase 1 | Pending |
@@ -162,15 +165,16 @@
 | PROD-05 | Phase 5 | Pending |
 | EXP-01 | Phase 4 | Pending |
 | EXP-02 | Phase 4 | Pending |
-| STOR-01 | Phase 1 | Pending |
-| STOR-02 | Phase 3 | Pending |
+| STOR-01 | Phase 6 | Pending |
+| STOR-02 | Phase 6 | Pending |
 | STOR-03 | Phase 1 | Pending |
+| STOR-04 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 48 total
-- Mapped to phases: 48
+- v1 requirements: 50 total
+- Mapped to phases: 50
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-09*
-*Last updated: 2026-10-09 after roadmap creation (traceability mapped)*
+*Last updated: 2026-10-12 after the Phase 1 re-scope (browser XML upload; Drive requirements moved to Phase 6)*

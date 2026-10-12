@@ -69,6 +69,7 @@ Ver con claridad en qué se va el dinero: gasto por categoría y por proveedor, 
 | Login con Google y allowlist | Encaja con la API de Drive; protege datos fiscales | — Pending |
 | Cuenta de Google = Gmail personal (no Workspace) | Respuesta del usuario; descarta la Unidad Compartida y la cuenta de servicio con cuota. Drive se accede con un OAuth del dueño y la pantalla de consentimiento debe publicarse como "In production" para que el refresh token no caduque a los 7 días | — Pending |
 | Datos enviados a DeepSeek: sí descripciones, claves SAT, montos y proveedores; nunca nombre, dirección ni datos personales del dueño (receptor) | Preferencia del usuario | — Pending |
+| Fase 1 re-acotada (2026-10-12): los XML se suben y se analizan en el navegador y se guardan solo ahí (IndexedDB), se borran al cerrar sesión; Drive pasa a una fase 6 nueva al final | Presión de tiempo: ver el gasto por proveedor sin depender de la credencial de Drive. La interfaz de almacenamiento permite que Drive reemplace al navegador después | — Pending |
 
 ## Evolution
 
@@ -88,4 +89,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-09 after initialization*
+*Last updated: 2026-10-12 after the Phase 1 re-scope (browser upload; Drive moved to Phase 6)*
