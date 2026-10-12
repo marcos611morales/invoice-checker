@@ -43,7 +43,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Automated tests parse anonymized fixtures of all 143 sample files without errors, covering BOM, single-concept files, namespace prefixes and unknown complements. Money uses exact decimals, and every invoice reconciles with its XML total within $0.10. No real fiscal file is committed.
   5. Invoices are stored only in that browser, survive a page reload, and are reached only through a storage interface that tests also run against an in-memory fake. No invoice data reaches the server, and signing out or the delete button removes them.
 
-**Plans:** 2/3 plans executed (re-planning after the 2026-10-12 re-scope; new plans start at 01-11)
+**Plans:** 15 plans (2/15 executed; re-planned 2026-10-12 after the re-scope; five oversized plans split the same day into 01-18..01-22, one plan per wave from Wave 2 on)
 
 Plans:
 **Wave 1**
@@ -51,9 +51,43 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [x] 01-03-PLAN.md — 143 anonymized CFDI fixtures + leak guard (Wave 2)
+- [ ] 01-11-PLAN.md — Hardened access: nonce CSP in `src/proxy.ts`, minted-session Playwright harness (allowed, denied, reload, logout) (Wave 2)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 01-04-PLAN.md — CFDI 4.0 parser, exact-decimal spend rules, reconciliation, golden totals (Wave 3)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 01-18-PLAN.md — 01-UI-SPEC shell, session keep-alive, Clear-Site-Data on sign-out, structural DAL test (Wave 4)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 01-19-PLAN.md — Browser storage behind `InvoiceStore`: legitimacy checkpoint (idb, fake-indexeddb, alert-dialog), IndexedDB adapter, memory fake + contract suite (Wave 5)
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 01-12-PLAN.md — Upload XML in the browser into IndexedDB: upload tracer, reload persistence, no duplicate, no data to the server (Wave 6)
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 01-13-PLAN.md — Import progress, three-count summary and problem list, ingest rules and no-network guards (Wave 7)
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 01-20-PLAN.md — Guided empty state, storage-unavailable state with Reintentar, shared loading skeleton (Wave 8)
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 01-14-PLAN.md — Browser data deleted at sign-out (wipe-first), owner gate for another account, cross-tab sign-out, confirmed "Borrar facturas" (Wave 9)
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 01-15-PLAN.md — Spend dashboard computed in the browser: year total, monthly chart, es-MX formatters, CSS tokens (Wave 10)
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 01-21-PLAN.md — Supplier table (Facturas = I + E), top-10 chart, year selector, unreadable-records alert, locked formatter outputs (Wave 11)
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 01-16-PLAN.md — Supplier detail page with its not-found, empty, unavailable and loading states (Wave 12)
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 01-22-PLAN.md — Drag-and-drop upload on any page, Spanish 404 and error boundary (Wave 13)
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [ ] 01-17-PLAN.md — Owner setup checkpoint (Google consent "In production", OAuth client, Vercel env vars, push authorization), deploy to Vercel, anonymous smoke in production, real-XML cross-check and end-of-phase UAT with the Safari/Firefox checklist (Wave 14)
 
 Superseded by the 2026-10-12 re-scope (`status: superseded`, kept as reference for Phase 6):
 - 01-02-PLAN.md — Owner Drive authorization: `pnpm drive:auth`, DriveApi port, external GCP/Vercel setup (Task 1 code merged in f9355b4)
@@ -165,7 +199,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Real Spend by Supplier | 2/3 | In Progress (re-planning) | - |
+| 1. Real Spend by Supplier | 2/15 | In Progress | - |
 | 2. Trustworthy, Explorable Figures | 0/TBD | Not started | - |
 | 3. Spend by Category | 0/TBD | Not started | - |
 | 4. IVA, Data Quality & Excel Export | 0/TBD | Not started | - |

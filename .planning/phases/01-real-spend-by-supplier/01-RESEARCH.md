@@ -846,39 +846,49 @@ Not a rename/refactor/migration phase. The only new runtime state is the browser
 | B13 | Playwright `setInputFiles` and a synthetic `DataTransfer` drop exercise the real handlers in Chromium | Finding 13 | Low-Med: fall back to `setInputFiles` only |
 | B14 | `navigator.storage.persist()` is granted often enough to matter in Chrome for a regularly used site | Finding 4 | Low: best effort only |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Is there a cap on files per upload?**
    - What we know: 1,000 files is about 0.5-1 s of parsing and about 2 MB stored; the parser caps each file at 2,000,000 bytes.
    - What's unclear: whether the user wants a visible limit (for example 2,000 per upload) or none.
    - Recommendation: no cap in Phase 1 (progress handles it); ask the user at UI-SPEC time. This is a product rule, so do not invent one.
+   - **RESOLVED:** D-35: 1,000 files per upload, with a warning above that.
 2. **Publish the Google consent screen "In production"?**
    - What we know: identity scopes need no verification; Testing restricts to listed test users and expires their authorizations in seven days [CITED: support.google.com/cloud/answer/15549945].
    - What's unclear: whether the owner wants unknown Google accounts to reach our "Acceso denegado" page (success criterion 1) or to be stopped by Google.
    - Recommendation: publish "In production" so criterion 1 is observable; the user decides (it is a console setting only they can change).
+   - **RESOLVED:** D-34: the owner publishes the consent screen "In production" (manual checkpoint in 01-17).
 3. **How should the three summary counts overlap?**
    - What we know: the superseded UI-SPEC shows "Nuevas / Con problemas" and a "Contado"/"No contado" badge per problem; flagged invoices (`total_no_cuadra`, `moneda_extranjera`) are both counted and listed (D-08).
    - What's unclear: whether "con problemas" includes counted-but-flagged files.
    - Recommendation: `conProblemas = problemas.length` (includes flagged ones), as in the superseded UI-SPEC; confirm in the UI-SPEC update.
+   - **RESOLVED:** D-36 and the UI-SPEC counting contract.
 4. **Keep the raw XML so a future parser version can re-derive records?**
    - What we know: Phase 1 stores only the parsed `Invoice` plus `meta.parserVersion`; the XML never leaves the machine and is not stored (D-22/D-23). Phase 2 adds fields (LEDG-05/06) that the current `Invoice` already carries per concept, but a future change could need the original XML.
    - What's unclear: whether re-upload ("vuelve a subir tus XML") is acceptable as the migration path.
    - Recommendation: do not store XML in Phase 1; revisit in Phase 2 discussion.
+   - **RESOLVED:** D-32: no raw XML; parserVersion in meta.
 5. **IndexedDB unavailable: hard error or in-memory session mode?**
    - What we know: the in-memory store already exists as the test fake and could back a labelled "sin guardado" session.
    - What's unclear: whether the user wants that degradation (it weakens "stored in the browser" semantics) or just an error message.
    - Recommendation: error message only in Phase 1; ask before adding the fallback.
+   - **RESOLVED:** D-33: error message only, upload disabled.
 6. **Delete confirmation component.**
    - What we know: UI-SPEC forbids installing `dialog`/`collapsible`/etc. for the old design; `radix-ui` 1.7.0 is already installed, so shadcn `alert-dialog` adds a component file, not an npm package, but the shadcn CLI rewrites version ranges (Pitfall 17).
    - What's unclear: shadcn `AlertDialog` vs native `<dialog>`/`window.confirm`.
    - Recommendation: shadcn `AlertDialog` decided in the UI-SPEC update; re-pin after the CLI run.
+   - **RESOLVED:** shadcn AlertDialog (UI-SPEC, approved 2026-10-12; confirmed at the 01-19 install checkpoint and added in 01-14).
 7. **Vercel Hobby is non-commercial** [CITED: vercel.com/docs/limits/fair-use-guidelines, carried]. This is a business tool. Not blocking; the owner decides before relying on it.
+   - **RESOLVED:** User 2026-10-12: deploy on Hobby for now; upgrading to Pro is recorded as a pending todo in STATE.md before relying on it for business use.
 8. **What does "número de facturas" count?** Recommendation: Ingreso documents only (A8); confirm during UAT.
+   - **RESOLVED:** D-37: "Facturas" counts I + E documents (not Ingreso only).
 9. **Ship the nonce-based CSP in Phase 1?**
    - What we know: it is not in any requirement ID, but XSS is the main exfiltration path for browser-stored fiscal data and the app is already dynamic.
    - What's unclear: whether the user accepts the extra file (`src/proxy.ts`) and the `await connection()` on the two public pages in this phase.
    - Recommendation: yes; it is a config change, so confirm before executing.
+   - **RESOLVED:** D-31: nonce CSP in src/proxy.ts in Phase 1.
 10. **Who runs the Safari/Firefox manual checks and on which devices?** The owner's and partner's real browsers matter most (Safari's seven-day eviction affects exactly them).
+   - **RESOLVED:** User 2026-10-12: the user runs the Safari and Firefox checks on their own and the partner's browsers during the 01-17 UAT, with a checklist.
 
 ## Environment Availability
 

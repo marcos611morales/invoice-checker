@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: Real Spend by Supplier
 status: executing
-stopped_at: Phase 01 UI-SPEC approved
-last_updated: "2026-10-10T03:25:37.863Z"
+stopped_at: Phase 01 UI-SPEC approved (re-scope)
+last_updated: "2026-10-12T20:03:49.423Z"
 last_activity: 2026-10-09
 last_activity_desc: Phase 01 execution started
-state_head: 139a4daf5051afabd5a37b369b2b99d5dcb4442b
+state_head: 905c1bb0bb6aa9fd626e23e776f13c05f040a452
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 0
-  total_plans: 10
-  completed_plans: 1
+  total_plans: 15
+  completed_plans: 2
   percent: 0
 ---
 
@@ -27,9 +27,9 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 
 ## Current Position
 
-Phase: 01 (Real Spend by Supplier) — EXECUTING
+Phase: 01 (Real Spend by Supplier) — READY TO EXECUTE
 Plan: 1 of 10
-Status: Executing Phase 01
+Status: Ready to execute
 Last activity: 2026-10-09 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -69,11 +69,11 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- Upgrade Vercel from Hobby (non-commercial only) to Pro before relying on the app for business use (user decision 2026-10-12: Hobby for now).
 
 ### Blockers/Concerns
 
-- [Phase 1 — RE-PLAN REQUIRED]: Plans 01-05..01-10 assume Drive storage and sync; they no longer match the 2026-10-12 re-scope (upload + browser-only storage). Do not execute them before `/gsd-plan-phase 01` revises them.
+- [Phase 1 — re-planned 2026-10-12]: Plans 01-11..01-22 replace the superseded Drive plans (browser upload + IndexedDB). Execution order 01-11 → 01-04 → 01-18 → 01-19 → 01-12 → 01-13 → 01-20 → 01-14 → 01-15 → 01-21 → 01-16 → 01-22 → 01-17. Checkpoints: 01-19 package install (idb, fake-indexeddb, alert-dialog); 01-17 Google consent "In production", Vercel setup and push.
 - [Phase 6]: The Drive credential path is unproven (owner refresh token, "In production", Better Auth + refresh). The spike must pass before anything builds on it.
 - [Phase 6]: The Drive JSON write-concurrency policy is undecided (`If-Match` behavior). The spike decides it, and STOR-02 (now in Phase 6) depends on it.
 - [Phase 6]: AUTH-05 asks for 30 days without re-authorizing. The phase can only verify more than 7 days, so re-check Drive access 30 days after the owner authorizes.
@@ -92,6 +92,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-09T23:22:04.159Z
-Stopped at: Phase 01 UI-SPEC approved
+Last session: 2026-10-12T18:25:01.028Z
+Stopped at: Phase 01 UI-SPEC approved (re-scope)
 Resume file: .planning/phases/01-real-spend-by-supplier/01-UI-SPEC.md
