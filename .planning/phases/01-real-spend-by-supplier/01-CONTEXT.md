@@ -44,6 +44,16 @@ These belong to later phases, not here:
 - **D-28:** The dashboard and the supplier detail are **computed in the browser** from the stored invoices, with the rules in D-11..D-15. Charts still receive pre-aggregated data. The server renders only the page shell behind the allowlist.
 - **D-29:** The app is **deployed on Vercel** at the shared URL in Phase 1 (AUTH-04).
 
+### Follow-up decisions after the 2026-10-12 re-research
+- **D-30:** IndexedDB is reached through **`idb` 8.0.4**, and adapter tests use **`fake-indexeddb` 6.2.5** (dev dependency). The user approved both installs; they still go through the package legitimacy gate as a checkpoint before installing.
+- **D-31:** Phase 1 adds a **nonce-based Content-Security-Policy** in a new `src/proxy.ts` (strict `script-src`, `connect-src 'self'`). `/login` and `/acceso-denegado` render dynamically as needed for the nonce.
+- **D-32:** Only the **parsed invoice** is stored, plus the parser version in the meta record. The raw XML is **not** stored; if the parser changes, the user uploads the files again.
+- **D-33:** If the browser cannot use IndexedDB (for example some private modes), the app shows an **error message** explaining that the invoices cannot be saved in this browser, and upload is disabled. There is no in-memory fallback.
+- **D-34:** The owner **publishes the Google OAuth consent screen "In production"** (identity scopes only, no verification needed), so a non-allowlisted account reaches "Acceso denegado". This is a manual checkpoint for the user.
+- **D-35:** An upload accepts **at most 1,000 files**. Above that, the app warns and asks the user to upload in parts.
+- **D-36:** In the upload summary, an invoice that counts but carries a flag (for example "total no cuadra") is counted **both in "nuevas" and in "con problemas"**. "Con problemas" therefore covers flagged invoices that count and files that were not imported, and the problem list says which ones count and which do not.
+- **D-37:** The supplier table's **"Facturas" column counts Ingreso and Egreso documents (I + E)**. Pagos (P) are not counted.
+
 ### Drive connection (moved to Phase 6)
 - **D-01 [deferred]:** The owner authorizes Drive once with a **local script** (`pnpm drive:auth`, loopback consent). The script prints the refresh token, which is pasted into a Vercel env var. The token never passes through the app UI, and there is no in-app "Conectar Drive" button.
 - **D-02 [deferred]:** The invoice folder is configured **in the app**. A "Ajustes" screen accepts a pasted Drive folder link or ID. It validates that the folder exists and is readable, shows how many XML files it sees (including year subfolders), and saves the folder ID. By default it looks for a folder named `Facturas/`. This replaces the research's `DRIVE_ROOT_FOLDER_ID` env var as the source of truth. An env var may still seed the initial default.

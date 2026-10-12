@@ -6,13 +6,13 @@ slug: "real-spend-by-supplier"
 status: draft
 nyquist_compliant: false
 wave_0_complete: false
-created: "2026-10-09"
+created: "2026-10-12"
 ---
 
 # Phase 01 — Validation Strategy
 
 > Per-phase validation contract for feedback sampling during execution.
-> Seeded from `01-RESEARCH.md` § Validation Architecture.
+> Regenerated 2026-10-12 for the browser-upload re-scope (replaces the 2026-10-09 Drive version). Source: 01-RESEARCH.md "Validation Architecture"; decisions D-20..D-37 in 01-CONTEXT.md.
 
 ---
 
@@ -20,45 +20,44 @@ created: "2026-10-09"
 
 | Property | Value |
 |----------|-------|
-| **Framework** | Vitest 5.0.3 (environment `node`); Playwright 1.64.0 for anonymous smoke |
-| **Config file** | none — Wave 0 installs `vitest.config.ts` (explicit alias `@` -> `src`) |
-| **Quick run command** | `pnpm vitest run tests/unit` |
-| **Full suite command** | `pnpm vitest run && pnpm eslint . && pnpm tsc --noEmit` |
-| **Estimated runtime** | ~60 seconds |
+| **Framework** | Vitest 5.0.3 (node env) for unit, contract and pipeline tests; Playwright 1.64.0 (Chromium) for anonymous and authenticated (minted-session) browser flows |
+| **Config file** | `vitest.config.ts`, `playwright.config.ts` (exist; Playwright `webServer.env` needs a test secret and `ALLOWED_EMAILS` for authenticated specs — Wave 0) |
+| **Quick run command** | `pnpm vitest run tests/unit tests/contract` |
+| **Full suite command** | `pnpm vitest run && pnpm lint && pnpm typecheck && pnpm build && pnpm exec playwright test` |
+| **Estimated runtime** | ~30 seconds quick; ~3 minutes full |
 
 ---
 
 ## Sampling Rate
 
-- **After every task commit:** Run `pnpm vitest run <touched area>` (falls back to `pnpm vitest run tests/unit`)
-- **After every plan wave:** Run `pnpm vitest run && pnpm eslint . && pnpm tsc --noEmit`
-- **Before `/gsd-verify-work`:** Full suite must be green, plus manual UAT checklist (login, denied account, sync, dashboard) and the day-8 Drive check recorded
-- **Max feedback latency:** 60 seconds
+- **After every task commit:** `pnpm vitest run <touched area>` (parser-adjacent tasks also run `tests/unit/fixtures-clean.test.ts`)
+- **After every plan wave:** `pnpm vitest run && pnpm lint && pnpm typecheck`; waves touching routes, CSP, auth or the client provider also run `pnpm build && pnpm exec playwright test`
+- **Before `/gsd-verify-work`:** Full suite must be green, then the manual list below
+- **Max feedback latency:** 30 seconds
 
 ---
 
 ## Per-Task Verification Map
 
-Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point to the STRIDE registers in each PLAN.md. Extra suites added by the plans: `tests/unit/require-user.test.ts` (AUTH-02), `tests/integration/first-sync.test.ts` (ING-02, STOR-01), `tests/unit/entrypoints-guarded.test.ts` (AUTH-02, also bans data imports in loading/error/not-found files), `tests/unit/mensaje.test.ts` (Plan 01-05, server-message rendering), `tests/unit/sync-run.test.ts` (Plan 01-07, client sync loop states). UI contract: `01-UI-SPEC.md` (approved 2026-10-09); its UI Considerations rows are lifted into the `must_haves.truths` of Plans 01-05..01-10 (`[ui ...]` tags; two backstop rows in 01-08 and 01-10).
+Requirement-level map seeded from research; the planner binds each row to task IDs (01-11 onward) and execution fills Status.
 
-| Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 01-01-T2 | 01-01 | 1 | AUTH-01 | T-01-05 | Google login configured identity-only | unit + manual UAT | `pnpm vitest run tests/unit/auth-config.test.ts` | ❌ W0 | ⬜ pending |
-| 01-01-T3, 01-09-T1 | 01-01, 01-09 | 1, 7 | AUTH-02 | T-01-01, T-01-02, T-01-35, T-01-42, T-01-47, T-01-48 | Non-allowlisted denied on every page, action, route | unit + integration + structural | `pnpm vitest run tests/unit/allowlist.test.ts tests/unit/entrypoints-guarded.test.ts` | ❌ W0 | ⬜ pending |
-| 01-01-T3, 01-05-T2 | 01-01, 01-05 | 1, 3 | AUTH-03 | T-01-04 | 30-day sliding session; logout clears cookie | unit + manual UAT | `pnpm vitest run tests/unit/auth-config.test.ts` | ❌ W0 | ⬜ pending |
-| 01-01-T2, 01-05-T2, 01-09-T1 | 01-01, 01-05, 01-09 | 1, 3, 7 | AUTH-04 | T-01-22 | Anonymous request redirected to /login | e2e smoke | `pnpm exec playwright test tests/e2e/anonymous.spec.ts` | ❌ W0 | ⬜ pending |
-| 01-02-T1, 01-02-T3, 01-09-T2 | 01-02, 01-09 | 2, 7 | AUTH-05 | T-01-06, T-01-08, T-01-09, T-01-37 | `invalid_grant` maps to Spanish operator message; token never logged | unit + manual day-8/day-30 | `pnpm vitest run tests/unit/drive-errors.test.ts` | ❌ W0 | ⬜ pending |
-| 01-05-T1, 01-05-T2, 01-06-T3 | 01-05, 01-06 | 3, 4 | ING-01 | T-01-18, T-01-19, T-01-45, T-01-46 | Folder input parsed/validated via zod; save re-inspects server-side | unit | `pnpm vitest run tests/unit/settings-service.test.ts tests/unit/mensaje.test.ts` | ❌ W0 | ⬜ pending |
-| 01-06-T1, 01-07-T1 | 01-06, 01-07 | 4, 5 | ING-02 | T-01-28 | Sync resumes and converges; client loop states (stall, 60-call guard) | unit | `pnpm vitest run tests/unit/sync-service.test.ts tests/unit/sync-run.test.ts` | ❌ W0 | ⬜ pending |
-| 01-06-T1, 01-07-T2 | 01-06, 01-07 | 4, 5 | ING-04 | T-01-27, T-01-29 | Same UUID never duplicated | unit | `pnpm vitest run tests/unit/sync-dedupe.test.ts` | ❌ W0 | ⬜ pending |
-| 01-04-T1, 01-04-T2 | 01-04 | 3 | LEDG-01 | T-01-14, T-01-15, T-01-17 | DTD/ENTITY rejected; 143 fixtures + synthetic parse | unit | `pnpm vitest run tests/unit/cfdi-parse.test.ts` | ❌ W0 | ⬜ pending |
-| 01-04-T3 | 01-04 | 3 | LEDG-02 | T-01-16 | Exact decimals; recon within 0.10 | unit | `pnpm vitest run tests/unit/money-recon.test.ts` | ❌ W0 | ⬜ pending |
-| 01-04-T3, 01-08-T2, 01-10-T3 | 01-04, 01-08, 01-10 | 3, 5, 6 | LEDG-03 | T-01-16, T-01-39 | I +, E −, P 0; goldens 16,053.07 / 13,679.30 / 217,880.82 | unit | `pnpm vitest run tests/unit/spend-rules.test.ts` | ❌ W0 | ⬜ pending |
-| 01-03-T1, 01-03-T2 | 01-03 | 2 | LEDG-07 | T-01-11, T-01-12, T-01-13 | No real RFC/UUID/name in fixtures; count == 143 | unit | `pnpm vitest run tests/unit/fixtures-clean.test.ts` | ❌ W0 | ⬜ pending |
-| 01-06-T1, 01-06-T3 | 01-06 | 4 | STOR-01 | T-01-24, T-01-25 | State only under `_app/`, zod-validated before write | contract | `pnpm vitest run tests/contract` | ❌ W0 | ⬜ pending |
-| 01-06-T3 | 01-06 | 4 | STOR-03 | T-01-24 | Same behavior on memory fake and Drive-backed repo | contract | `pnpm vitest run tests/contract` | ❌ W0 | ⬜ pending |
-| 01-08-T1, 01-08-T2, 01-08-T3, 01-10-T1, 01-10-T3 | 01-08, 01-10 | 5, 6 | DASH-04 | T-01-31, T-01-32, T-01-33, T-01-41, T-01-43, T-01-44, T-01-47 | Ranking/monthly evolution and supplier-detail goldens; names rendered escaped | unit + manual UAT | `pnpm vitest run tests/unit/analytics.test.ts tests/unit/supplier-detail.test.ts` | ❌ W0 | ⬜ pending |
-| 01-01-T2, 01-05-T3, 01-08-T1, 01-10-T2 | 01-01, 01-05, 01-08, 01-10 | 1, 3, 5, 6 | DASH-09 | — | es-MX MXN formatting; `lang="es-MX"` | unit | `pnpm vitest run tests/unit/format.test.ts` | ❌ W0 | ⬜ pending |
+| Requirement | Behavior | Test Type | Automated Command | File Exists | Status |
+|-------------|----------|-----------|-------------------|-------------|--------|
+| AUTH-01 | Identity-only Google sign-in (no `drive` scope) | unit + e2e anonymous | `pnpm vitest run tests/unit/auth-config.test.ts` | ✅ | ⬜ pending |
+| AUTH-02 | Non-allowlisted denied on every page and route; no `"use server"`, only the auth `route.ts` | unit + structural + e2e (minted non-allowlisted session) | `pnpm vitest run tests/unit/allowlist.test.ts tests/unit/require-user.test.ts tests/unit/entrypoints-guarded.test.ts` | partly ❌ W0 | ⬜ pending |
+| AUTH-03 | Session survives reload; logout returns to `/login` | unit (config) + e2e | `pnpm exec playwright test tests/e2e/browser-upload.spec.ts -g "sesión"` | ❌ W0 | ⬜ pending |
+| AUTH-04 | Reachable at the shared URL; CSP and `clear-site-data` headers present | e2e anonymous against production | `E2E_BASE_URL=<prod> pnpm exec playwright test tests/e2e/anonymous.spec.ts` | extend ✅ | ⬜ pending |
+| ING-04 | Same UUID never duplicates: stored wins (D-26), in-batch first wins | unit pipeline + contract | `pnpm vitest run tests/unit/ingest.test.ts tests/contract` | ❌ W0 | ⬜ pending |
+| ING-06 | Pick/drop XML only, non-XML listed, size cap, 1,000-file cap (D-35), progress, summary counts (D-36); nothing sent to the server | unit + e2e (request sniff) | `pnpm vitest run tests/unit/ingest.test.ts tests/unit/no-network.test.ts` | ❌ W0 | ⬜ pending |
+| LEDG-01 | Parse tolerance and isomorphic (browser-safe) imports | unit (01-04) + import guard | `pnpm vitest run tests/unit/cfdi-parse.test.ts tests/unit/isomorphic-imports.test.ts` | 01-04 / ❌ W0 | ⬜ pending |
+| LEDG-02 | Exact decimals; 0.10 not flagged, 0.11 flagged | unit (01-04) | `pnpm vitest run tests/unit/money-recon.test.ts` | 01-04 | ⬜ pending |
+| LEDG-03 | I +, E −, P 0; goldens 217,880.82 / 16,053.07 / 13,679.30 | unit + analytics | `pnpm vitest run tests/unit/spend-rules.test.ts tests/unit/analytics.test.ts` | 01-04 / ❌ W0 | ⬜ pending |
+| LEDG-07 | Anonymized fixtures only | unit (leak guard) | `pnpm vitest run tests/unit/fixtures-clean.test.ts` | ✅ | ⬜ pending |
+| STOR-03 | Memory fake and IndexedDB adapter pass one contract suite | contract (`describe.each`) + idb tests | `pnpm vitest run tests/contract tests/unit/idb-adapter.test.ts` | ❌ W0 | ⬜ pending |
+| STOR-04 | Survives reload; wiped on sign-out, delete button, other account (D-24); IndexedDB unavailable → error (D-33) | unit + e2e | `pnpm vitest run tests/unit/browser-data.test.ts tests/unit/auth-route.test.ts` | ❌ W0 | ⬜ pending |
+| DASH-04 | Ranking, top 10, monthly evolution, supplier detail, "Facturas" = I + E (D-37) | unit + e2e | `pnpm vitest run tests/unit/analytics.test.ts tests/unit/supplier-detail.test.ts` | ❌ W0 | ⬜ pending |
+| DASH-09 | es-MX formatting and Spanish copy | unit + e2e text | `pnpm vitest run tests/unit/format.test.ts` | ❌ W0 | ⬜ pending |
+| Security | DTD/oversize rejected; hostile name as text; nonce CSP (D-31) with no violations | unit + e2e console | `pnpm vitest run tests/unit/csp.test.ts` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -66,12 +65,11 @@ Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point t
 
 ## Wave 0 Requirements
 
-- [ ] `vitest.config.ts`, `tests/` tree, `package.json` scripts (`test`, `lint`, `typecheck`, `drive:auth`, `fixtures:build`, `spike:drive`)
-- [ ] `scripts/build-fixtures.ts` + committed `tests/fixtures/cfdi/*.xml` (143 anonymized) + `tests/fixtures/synthetic/*.xml`
-- [ ] `FakeDriveApi` in-memory adapter (folders, md5, modifiedTime, trashed, pagination, injected failures/latency)
-- [ ] Contract suite shared by memory and Drive-backed repositories
-- [ ] Playwright config + anonymous smoke spec (baseURL from env)
-- [ ] Framework install: `pnpm add -D vitest@5.0.3 @vitest/coverage-v8@5.0.3 @playwright/test@1.64.0 tsx`
+- [ ] `idb` 8.0.4 and `fake-indexeddb` 6.2.5 installed, exact-pinned, after the package legitimacy checkpoint (D-30)
+- [ ] `tests/contract/invoice-store.contract.test.ts`, `tests/unit/idb-adapter.test.ts`, memory fake
+- [ ] `tests/unit/{ingest,no-network,isomorphic-imports,browser-data,auth-route,csp,entrypoints-guarded,analytics,supplier-detail,format}.test.ts`
+- [ ] `tests/helpers/mint-session.ts` + canary test; Playwright `webServer.env`; `tests/e2e/browser-upload.spec.ts`
+- [ ] Plan 01-04 (parser) executes first — dependency of every pipeline and analytics test
 
 ---
 
@@ -79,13 +77,12 @@ Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point t
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
-| Real Google sign-in for owner and partner | AUTH-01, AUTH-04 | Google blocks automated consent | Sign in at the Vercel URL with both allowlisted accounts; confirm no unverified-app warning for the partner |
-| Denied account sees "Acceso denegado" with its email | AUTH-02 | Needs a real non-allowlisted Google account | Sign in with a third account; every page and `/api/*` route denies |
-| Session survives refresh; logout works | AUTH-03 | Real cookie lifecycle in browser | Refresh, close/reopen browser, click logout |
-| Drive keeps working after 7 and 30 days | AUTH-05 | Only provable by waiting | Run a sync on day 8 and day 30 after minting the token; record in STATE.md |
-| Dashboard renders ranking + monthly evolution | DASH-04 | RSC render not unit-testable | Sync the 2025 sample; compare Telmex and Google Ads to goldens |
-| Drive `If-Match` probe outcome | — (spike) | Needs owner credentials | Run `pnpm spike:drive`; record outcome in PROJECT.md Key Decisions |
-| 01-UI-SPEC visual backstops: teal chart bars visible on white; populated dashboard at 1280px and 390px with no clipped labels or page scroll | DASH-04, DASH-09 | CSS result and responsive layout are not unit-testable | Plan 01-08 Task 3 and Plan 01-10 Task 3 human checks |
+| Real Google sign-in for owner and partner at the production URL; a third account sees "Acceso denegado" with its email (consent screen "In production", D-34) | AUTH-01, AUTH-02, AUTH-04 | Google blocks automated consent | Sign in with both allowlisted accounts and one other |
+| Sliding session renewal on the deployed URL | AUTH-03 | Needs real time | Inspect `Set-Cookie` Max-Age after a second visit past the update age |
+| Safari and Firefox: upload, reload persistence, logout wipe, `Clear-Site-Data` effect | STOR-04 | WebKit/Gecko not automated | Checklist on the owner's and partner's real browsers |
+| Telmex / Google Ads totals against the real XMLs | LEDG-03, DASH-04 | Fiscal files never leave the machine | Upload `Facturas/2025/*.xml` in the deployed app; Telmex row $16,053.07 (7 facturas), Google Ads row $13,679.30 (11 facturas: 8 I + 3 E, per D-37) |
+| Populated dashboard at 1280 px and 390 px; bar contrast | DASH-04, DASH-09 | Visual result | Visual check |
+| CSP on the production dashboard with real charts | Security | Depends on the real build | DevTools console after an upload |
 
 ---
 
@@ -95,7 +92,7 @@ Task IDs filled in by the planner (format `<plan>-T<task>`); threat refs point t
 - [ ] Sampling continuity: no 3 consecutive tasks without automated verify
 - [ ] Wave 0 covers all MISSING references
 - [ ] No watch-mode flags
-- [ ] Feedback latency < 60s
+- [ ] Feedback latency < 30s
 - [ ] `nyquist_compliant: true` set in frontmatter
 
 **Approval:** pending
